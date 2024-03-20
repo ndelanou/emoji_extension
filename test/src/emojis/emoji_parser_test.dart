@@ -238,11 +238,29 @@ void main() {
     });
 
     test(
+        'fromShortcodes() returns this raw shortcode when the shortcode does not exist and no replacement method is provider',
+        () {
+      const text = ':man: :this-shortcode-does-not-exist: :woman:';
+      final value = EmojiParser(text).fromShortcodes();
+      const expected = '👨 :this-shortcode-does-not-exist: 👩';
+      expect(value, expected);
+    });
+
+        test(
         'fromShortcodes() returns correct text with emoji in place of shortcode when emojis are chained (without skin tone)',
         () {
       const text = ':otter::woman-facepalming::santa::dancer::female-astronaut:';
       final value = EmojiParser(text).fromShortcodes();
       const expected = '🦦🤦‍♀️🎅💃👩‍🚀';
+      expect(value, expected);
+    });
+
+    test(
+        'fromShortcodes() returns this replacement text when shortcode cannot be found and a replacement method is provided',
+        () {
+      const text = ':man: :this-shortcode-does-not-exist: :woman:';
+      final value = EmojiParser(text).fromShortcodes(onUnknownShortcode: (_) => '🤷');
+      const expected = '👨 🤷 👩';
       expect(value, expected);
     });
 
