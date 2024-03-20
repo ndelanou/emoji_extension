@@ -246,28 +246,31 @@ void main() {
       expect(value, expected);
     });
 
-        test(
+    test(
+        'fromShortcodes() returns this replacement text when shortcode cannot be found and a replacement method is provided',
+        () {
+      const text = ':man: :this-shortcode-does-not-exist: :woman:';
+      final value =
+          EmojiParser(text).fromShortcodes(onUnknownShortcode: (_) => '🤷');
+      const expected = '👨 🤷 👩';
+      expect(value, expected);
+    });
+
+    test(
         'fromShortcodes() returns correct text with emoji in place of shortcode when emojis are chained (without skin tone)',
         () {
-      const text = ':otter::woman-facepalming::santa::dancer::female-astronaut:';
+      const text =
+          ':otter::woman-facepalming::santa::dancer::female-astronaut:';
       final value = EmojiParser(text).fromShortcodes();
       const expected = '🦦🤦‍♀️🎅💃👩‍🚀';
       expect(value, expected);
     });
 
     test(
-        'fromShortcodes() returns this replacement text when shortcode cannot be found and a replacement method is provided',
-        () {
-      const text = ':man: :this-shortcode-does-not-exist: :woman:';
-      final value = EmojiParser(text).fromShortcodes(onUnknownShortcode: (_) => '🤷');
-      const expected = '👨 🤷 👩';
-      expect(value, expected);
-    });
-
-    test(
         'fromShortcodes() returns correct text with emoji in place of shortcode when emojis are chained',
         () {
-      const text = ':otter::woman-facepalming::skin-tone-5::santa::dancer::skin-tone-4::female-astronaut::skin-tone-5:';
+      const text =
+          ':otter::woman-facepalming::skin-tone-5::santa::dancer::skin-tone-4::female-astronaut::skin-tone-5:';
       final value = EmojiParser(text).fromShortcodes();
       const expected = '🦦🤦🏾‍♀️🎅💃🏽👩🏾‍🚀';
       expect(value, expected);
